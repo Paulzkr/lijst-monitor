@@ -72,6 +72,8 @@
     }
     .fragment.empty { color: var(--muted); font-style: italic; }
     .hash { margin-top: 10px; font-size: .75rem; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .fallback { margin-top: 10px; font-size: .85rem; color: var(--muted); }
+    .fallback strong { color: var(--ink); }
     .note {
       margin-top: 28px; padding: 16px 18px; border-radius: 10px;
       background: color-mix(in srgb, var(--warn) 10%, var(--card));
@@ -125,7 +127,10 @@
       {
         id: "fatf",
         naam: "FATF zwarte/grijze lijst",
-        url: "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html"
+        url: "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html",
+        // FATF weert soms geautomatiseerde toegang (403). Vast vangnet: de FATF
+        // publiceert wijzigingen altijd direct na de plenaires (feb/jun/okt).
+        plenaireMaanden: [2, 6, 10]
       },
       {
         id: "eu_sancties",
@@ -133,6 +138,20 @@
         url: "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en"
       }
     ];
+
+    const MAANDEN = ["januari","februari","maart","april","mei","juni",
+                     "juli","augustus","september","oktober","november","december"];
+
+    // Eerstvolgende FATF-plenaire (feb/jun/okt) t.o.v. vandaag.
+    function volgendePlenaire(maanden) {
+      const now = new Date();
+      const jaar = now.getFullYear();
+      const maandNu = now.getMonth() + 1; // 1-12
+      for (const m of maanden) {
+        if (m >= maandNu) return `${MAANDEN[m - 1]} ${jaar}`;
+      }
+      return `${MAANDEN[maanden[0] - 1]} ${jaar + 1}`;
+    }
 
     // Pages publiceert de docs/-map; state.json staat in de repo-root.
     // Probeer eerst een lokale kopie (mocht die er ooit komen), val terug op raw GitHub.
@@ -175,6 +194,13 @@
         } else {
           badge = '<span class="badge warn">niet bereikbaar bij laatste run</span>';
           fragmentHtml = '<p class="fragment empty">Geen stand vastgelegd — bron handmatig controleren.</p>';
+          if (src.plenaireMaanden) {
+            hashHtml =
+              `<div class="fallback">FATF weert soms geautomatiseerde toegang. ` +
+              `Wijzigingen worden altijd gepubliceerd direct na de plenaires ` +
+              `(februari, juni, oktober). ` +
+              `<strong>Eerstvolgende: ${volgendePlenaire(src.plenaireMaanden)}.</strong></div>`;
+          }
         }
 
         card.innerHTML =
@@ -185,13 +211,33 @@
       }
     }
 
+    // Datum van de laatste commit op state.json via de GitHub API (CORS-vrij).
+    async function laatstBijgewerkt() {
+      try {
+        const r = await fetch(
+          "https://api.github.com/repos/Paulzkr/lijst-monitor/commits?path=state.json&per_page=1",
+          { cache: "no-store", headers: { "Accept": "application/vnd.github+json" } }
+        );
+        if (!r.ok) return null;
+        const commits = await r.json();
+        const iso = commits?.[0]?.commit?.committer?.date;
+        if (!iso) return null;
+        const d = new Date(iso);
+        return `${d.getDate()} ${MAANDEN[d.getMonth()]} ${d.getFullYear()}`;
+      } catch (_) {
+        return null;
+      }
+    }
+
     (async () => {
       const meta = document.getElementById("meta");
       try {
         const state = await loadState();
         render(state);
         const n = SOURCES.filter(s => state[s.id]).length;
-        meta.innerHTML = `${n} van ${SOURCES.length} bronnen met vastgelegde stand · fragmenten komen rechtstreeks uit <code>state.json</code>`;
+        const datum = await laatstBijgewerkt();
+        const datumTekst = datum ? ` · stand laatst vastgelegd op <strong>${esc(datum)}</strong>` : "";
+        meta.innerHTML = `${n} van ${SOURCES.length} bronnen met vastgelegde stand · fragmenten komen rechtstreeks uit <code>state.json</code>${datumTekst}`;
       } catch (err) {
         meta.innerHTML = `<span style="color:var(--err)">Fout: ${esc(err.message)}</span>`;
       }
