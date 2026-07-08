@@ -6,33 +6,69 @@
   <title>Lijst-monitor — risicolanden &amp; sancties</title>
   <style>
     :root {
-      --bg: #f4f6f9; --card: #fff; --ink: #16202e; --muted: #5b6472;
-      --line: #e3e7ee; --accent: #1f5fbf;
+      /* ZKR-merkpalet: navy #152A62 + slate #7B87A7 (bron: kleuren.pdf) */
+      --bg: #eef1f7; --card: #fff; --ink: #14213d; --muted: #5b6588;
+      --line: #e0e4ee; --accent: #152a62; --accent-soft: #e9eef8;
+      --brand-slate: #7b87a7;
       --ok: #1a7f4b; --ok-bg: #e6f4ec; --warn: #b06a00; --warn-bg: #fbf0dd;
       --err: #b42318; --err-bg: #fbe9e7;
-      --chip: #eef1f6; --shadow: 0 1px 3px rgba(20,30,50,.08);
+      --chip: #eef1f6;
+      --shadow: 0 1px 2px rgba(21,42,98,.06), 0 6px 20px rgba(21,42,98,.05);
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #0e1320; --card: #161d2b; --ink: #e7ebf2; --muted: #96a0b1;
-        --line: #263042; --accent: #6ea8fe;
+        --bg: #0a1124; --card: #121b36; --ink: #e8ecf5; --muted: #8b97ba;
+        --line: #24304f; --accent: #9fb4ee; --accent-soft: #17224a;
+        --brand-slate: #7b87a7;
         --ok: #58c98a; --ok-bg: #123324; --warn: #e2a33a; --warn-bg: #33280f;
         --err: #f0857a; --err-bg: #3a1d1a;
-        --chip: #1f2838; --shadow: 0 1px 3px rgba(0,0,0,.4);
+        --chip: #1a2440;
+        --shadow: 0 1px 3px rgba(0,0,0,.45);
       }
     }
     * { box-sizing: border-box; }
     body { margin: 0; background: var(--bg); color: var(--ink);
       font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased; }
-    .wrap { max-width: 940px; margin: 0 auto; padding: 32px 20px 72px; }
-    header h1 { margin: 0 0 4px; font-size: 1.75rem; letter-spacing: -.01em; }
-    header p.lead { margin: 0; color: var(--muted); }
-    .grid { margin-top: 26px; display: grid; gap: 18px; }
+    .wrap { max-width: 1200px; margin: 0 auto; padding: 40px 24px 72px; }
+    header { position: relative; padding-left: 18px; }
+    header::before { content: ""; position: absolute; left: 0; top: 3px; bottom: 3px;
+      width: 4px; border-radius: 4px; background: var(--accent); }
+    header .kicker { margin: 0 0 6px; font-size: .72rem; font-weight: 700;
+      letter-spacing: .14em; text-transform: uppercase; color: var(--brand-slate); }
+    header h1 { margin: 0 0 6px; font-size: 1.85rem; line-height: 1.2;
+      letter-spacing: -.02em; color: var(--ink); }
+    header p.lead { margin: 0; color: var(--muted); max-width: 64ch; }
+    .overview { margin-top: 22px; display: grid; gap: 14px;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); }
+    .tile { background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; box-shadow: var(--shadow); padding: 15px 17px; }
+    .tile .k { font-size: .7rem; font-weight: 700; letter-spacing: .05em;
+      text-transform: uppercase; color: var(--muted); }
+    .tile .v { margin-top: 5px; font-size: 1.55rem; font-weight: 700; color: var(--ink);
+      letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1.1; }
+    .tile .v.date { font-size: 1.15rem; }
+    .grid { margin-top: 20px; display: grid; gap: 18px; align-items: start;
+      grid-template-columns: repeat(auto-fit, minmax(440px, 1fr)); }
     .card { background: var(--card); border: 1px solid var(--line);
-      border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px; }
-    .card > h2 { margin: 0; font-size: 1.12rem; display: flex; gap: 10px;
-      align-items: center; flex-wrap: wrap; }
+      border-radius: 14px; box-shadow: var(--shadow); padding: 22px 24px;
+      transition: border-color .18s ease, box-shadow .18s ease; }
+    .card:hover { border-color: var(--brand-slate); }
+    .card--wide { grid-column: 1 / -1; }
+    .card--link { display: block; text-decoration: none; color: inherit; cursor: pointer; }
+    .card--link:hover { border-color: var(--accent); }
+    .card-head { display: flex; justify-content: space-between; align-items: flex-start; gap: 12px; }
+    .go { flex-shrink: 0; margin-top: 3px; color: var(--accent); font-size: .82rem;
+      font-weight: 700; white-space: nowrap; }
+    .card--link:hover .go { text-decoration: underline; }
+    .metrics { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 12px; }
+    .metric { font-size: .9rem; font-weight: 600; color: var(--ink); }
+    .metric b { color: var(--accent); font-variant-numeric: tabular-nums; }
+    .back { display: inline-flex; align-items: center; gap: 6px; margin: 0 0 18px;
+      color: var(--accent); text-decoration: none; font-size: .9rem; font-weight: 600; }
+    .back:hover { text-decoration: underline; }
+    .card h2 { margin: 0; font-size: 1.12rem; display: flex; gap: 10px;
+      align-items: center; flex-wrap: wrap; color: var(--ink); letter-spacing: -.01em; }
     .status { font-size: .68rem; font-weight: 700; padding: 3px 9px;
       border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; }
     .status.ok { color: var(--ok); background: var(--ok-bg); }
@@ -58,11 +94,13 @@
       text-decoration: none; white-space: nowrap; }
     .mini-nieuw { color: #fff; background: var(--ok); }
     .mini-verwijderd { color: #fff; background: var(--err); }
-    table.aml { width: 100%; border-collapse: collapse; font-size: .88rem; }
-    table.aml td { padding: 6px 8px; border-bottom: 1px solid var(--line);
-      vertical-align: middle; }
-    table.aml td.datum { color: var(--muted); white-space: nowrap; width: 1%; }
-    table.aml tr.verwijderd td.naam { text-decoration: line-through; color: var(--muted); }
+    .landgrid { display: grid; gap: 0 24px;
+      grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); }
+    .landcel { display: flex; justify-content: space-between; align-items: baseline;
+      gap: 10px; padding: 7px 0; border-bottom: 1px solid var(--line); font-size: .88rem; }
+    .landcel .datum { color: var(--muted); white-space: nowrap;
+      font-variant-numeric: tabular-nums; font-size: .82rem; }
+    .landcel.verwijderd .ln { text-decoration: line-through; color: var(--muted); }
     .deltas { display: flex; flex-wrap: wrap; gap: 8px; }
     .delta { font-size: .86rem; font-weight: 600; padding: 3px 9px; border-radius: 7px; }
     .delta.plus { color: var(--ok); background: var(--ok-bg); }
@@ -81,7 +119,9 @@
       background: var(--warn-bg); border: 1px solid var(--line); font-size: .87rem; }
     .note strong { color: var(--warn); }
     .timeline { margin-top: 26px; }
-    .timeline > summary { font-size: 1rem; font-weight: 600; color: var(--ink); }
+    .timeline > summary { font-size: 1rem; font-weight: 600; color: var(--accent);
+      background: var(--accent-soft); border: 1px solid var(--line);
+      padding: 12px 16px; border-radius: 10px; list-style-position: inside; }
     .tl { margin: 14px 0 0; padding: 0; list-style: none; }
     .tl li { padding: 10px 0; border-bottom: 1px solid var(--line); }
     .tl .row1 { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
@@ -95,17 +135,28 @@
 <body>
   <div class="wrap">
     <header>
+      <p class="kicker">ZKR · compliance-monitoring</p>
       <h1>Lijst-monitor — risicolanden &amp; sancties</h1>
       <p class="lead">Actuele landenlijsten en wijzigingshistorie van de vier gemonitorde bronnen (Wwft / sancties).</p>
-      <p class="lead small" id="global-meta"><span class="status-loading">Gegevens laden…</span></p>
     </header>
 
-    <div class="grid" id="grid"></div>
+    <main id="overview-view">
+      <div class="overview" id="overview">
+        <div class="tile"><div class="k">Status</div><div class="v date status-loading">Gegevens laden…</div></div>
+      </div>
 
-    <details class="timeline" id="timeline">
-      <summary>Volledige wijzigingstijdlijn (alle gedetecteerde mutaties)</summary>
-      <ul class="tl" id="tl"></ul>
-    </details>
+      <div class="grid" id="grid"></div>
+
+      <details class="timeline" id="timeline">
+        <summary>Volledige wijzigingstijdlijn (alle gedetecteerde mutaties)</summary>
+        <ul class="tl" id="tl"></ul>
+      </details>
+    </main>
+
+    <section id="detail-view" hidden>
+      <a class="back" href="#">← Terug naar overzicht</a>
+      <div id="detail-body"></div>
+    </section>
 
     <div class="note">
       <strong>Let op — beleidsmonitoring, geen sanctiescreening.</strong>
@@ -202,6 +253,7 @@
 
     // ---- data ----
     let HISTORIE = [];
+    let STATE = null;
     function recentsteMutatie(bronId) {
       return HISTORIE.filter(h => h.bron_id === bronId)
         .sort((a, b) => (a.datum < b.datum ? 1 : -1))[0] || null;
@@ -277,18 +329,18 @@
 
     // ---- kaart per bron ----
     function kaartAml(bron, d) {
-      const rijen = (d.landen || []).map(e => {
+      const actief = (d.landen || []).filter(e => effectief(e.status, e.mutatiedatum) !== "weg");
+      const cellen = actief.map(e => {
         const eff = effectief(e.status, e.mutatiedatum);
-        if (eff === "weg") return "";
         let badge = "";
         if (eff === "nieuw") badge = `<span class="mini mini-nieuw">NIEUW ${engNaarNL(e.datum_inwerkingtreding)}</span>`;
         else if (eff === "verwijderd") badge = `<span class="mini mini-verwijderd">VERWIJDERD ${isoNaarNL(e.mutatiedatum)}</span>`;
-        return `<tr class="${eff === "verwijderd" ? "verwijderd" : ""}">
-          <td class="naam">${esc(e.naam)} ${badge}</td>
-          <td class="datum">${esc(e.datum_inwerkingtreding || "")}</td></tr>`;
-      }).filter(Boolean).join("");
-      return `<div class="sub"><h4>Actuele lijst (${(d.landen || []).filter(e => effectief(e.status,e.mutatiedatum)!=="weg").length} landen · datum inwerkingtreding)</h4>
-        <table class="aml"><tbody>${rijen}</tbody></table></div>
+        return `<div class="landcel ${eff === "verwijderd" ? "verwijderd" : ""}">
+          <span class="ln">${esc(e.naam)} ${badge}</span>
+          <span class="datum">${esc(e.datum_inwerkingtreding || "")}</span></div>`;
+      }).join("");
+      return `<div class="sub"><h4>Actuele lijst (${actief.length} landen · datum inwerkingtreding)</h4>
+        <div class="landgrid">${cellen}</div></div>
         ${laatsteWijzigingBlok(bron.id)}
         ${officieleHistorieAml(d, bron.url)}`;
     }
@@ -327,7 +379,7 @@
         return card;
       }
       let body;
-      if (bron.type === "aml") body = kaartAml(bron, d);
+      if (bron.type === "aml") { body = kaartAml(bron, d); card.classList.add("card--wide"); }
       else if (bron.type === "tax") body = kaartTax(bron, d);
       else if (bron.type === "sancties") body = kaartSancties(bron, d);
       else body = kaartFatf(bron, d);
@@ -336,6 +388,91 @@
         ${metaRegel(d)}${structuurWaarschuwing(d, bron.url)}${body}`;
       return card;
     }
+
+    // ---- overzichtskaart (samenvatting, klikbaar naar detail) ----
+    function alleEntries(bron, d) {
+      if (bron.type === "aml") return d.landen || [];
+      if (bron.type === "tax") return [...(d.bijlage_1 || []), ...(d.bijlage_2 || [])];
+      if (bron.type === "fatf") return [...(d.zwarte_lijst || []), ...(d.grijze_lijst || [])];
+      return [];
+    }
+    function telActief(bron, d) {
+      return alleEntries(bron, d).filter(e => effectief(e.status, e.mutatiedatum) !== "weg").length;
+    }
+    function tellingLabel(bron, d) {
+      if (bron.type === "tax") return `<b>${telActief(bron, d)}</b> jurisdicties`;
+      if (bron.type === "sancties") return `<b>${(d.updates || []).length}</b> updates`;
+      return `<b>${telActief(bron, d)}</b> landen`;
+    }
+    function recenteEntries(bron, d) {
+      return alleEntries(bron, d).filter(e => {
+        const eff = effectief(e.status, e.mutatiedatum);
+        return eff === "nieuw" || eff === "verwijderd";
+      });
+    }
+    function wijzigingCompact(bronId) {
+      const h = recentsteMutatie(bronId);
+      if (!h) return "";
+      const parts = [];
+      (h.toegevoegd || []).forEach(n => parts.push(`<span class="delta plus">+ ${esc(n)}</span>`));
+      (h.verwijderd || []).forEach(n => parts.push(`<span class="delta min">− ${esc(n)}</span>`));
+      if (!parts.length) return "";
+      return `<div class="sub"><h4>Laatste wijziging <span class="muted small">(${isoNaarNL(h.datum)})</span></h4>
+        <div class="deltas">${parts.join("")}</div></div>`;
+    }
+    function bouwSamenvatting(bron, state) {
+      const d = state[bron.id];
+      const a = document.createElement("a");
+      a.className = "card card--link";
+      a.href = "#" + bron.id;
+      if (!d) {
+        a.innerHTML = `<div class="card-head"><h2>${esc(bron.naam)} <span class="status warn">geen data</span></h2>
+          <span class="go">Details →</span></div>
+          <p class="muted small">Nog geen stand vastgelegd.</p>`;
+        return a;
+      }
+      const recent = recenteEntries(bron, d);
+      const recentBlok = recent.length
+        ? `<div class="sub"><h4>Recent gewijzigd (90 dagen)</h4>
+            <div class="chips">${chips(recent, bron.type === "aml")}</div></div>`
+        : "";
+      a.innerHTML = `
+        <div class="card-head">
+          <h2>${esc(bron.naam)} ${statusBadge(d)}</h2>
+          <span class="go">Details →</span>
+        </div>
+        <div class="src">${esc(bron.instantie)}</div>
+        <div class="metrics">
+          <span class="metric">${tellingLabel(bron, d)}</span>
+          <span class="metric"><b>${recent.length}</b> recente mutatie(s)</span>
+        </div>
+        ${metaRegel(d)}
+        ${wijzigingCompact(bron.id)}
+        ${recentBlok}`;
+      return a;
+    }
+
+    // ---- hash-router: leeg = overzicht, #<bron_id> = detail ----
+    function route() {
+      const id = (location.hash || "").replace(/^#\/?/, "");
+      const bron = BRONNEN.find(b => b.id === id);
+      const ov = document.getElementById("overview-view");
+      const dv = document.getElementById("detail-view");
+      if (bron && STATE) {
+        ov.hidden = true;
+        dv.hidden = false;
+        const body = document.getElementById("detail-body");
+        body.innerHTML = "";
+        body.appendChild(bouwKaart(bron, STATE));
+        document.title = `${bron.naam} — Lijst-monitor`;
+      } else {
+        dv.hidden = true;
+        ov.hidden = false;
+        document.title = "Lijst-monitor — risicolanden & sancties";
+      }
+      window.scrollTo(0, 0);
+    }
+    window.addEventListener("hashchange", route);
 
     function bouwTijdlijn() {
       const ul = document.getElementById("tl");
@@ -351,6 +488,25 @@
       }).join("") || '<li class="muted small">Nog geen wijzigingen geregistreerd.</li>';
     }
 
+    // ---- overzichtstegels ----
+    function tile(k, v) {
+      return `<div class="tile"><div class="k">${esc(k)}</div><div class="v">${esc(v)}</div></div>`;
+    }
+    function tileDate(k, v) {
+      return `<div class="tile"><div class="k">${esc(k)}</div><div class="v date">${esc(v)}</div></div>`;
+    }
+    function telActieveListings(state) {
+      let n = 0;
+      const a = state.eu_aml;
+      if (a && a.landen) n += a.landen.filter(e => effectief(e.status, e.mutatiedatum) !== "weg").length;
+      const t = state.eu_tax;
+      if (t) n += (t.bijlage_1 || []).length + (t.bijlage_2 || []).length;
+      const f = state.fatf;
+      if (f) n += (f.zwarte_lijst || []).length
+        + (f.grijze_lijst || []).filter(e => effectief(e.status, e.mutatiedatum) !== "weg").length;
+      return n;
+    }
+
     async function haalJson(pad) {
       const r = await fetch(RAW + pad, { cache: "no-store" });
       if (!r.ok) throw new Error(`${pad} (${r.status})`);
@@ -358,21 +514,28 @@
     }
 
     (async () => {
-      const gm = document.getElementById("global-meta");
+      const overview = document.getElementById("overview");
       try {
         const [state, historie] = await Promise.all([
           haalJson("state.json"),
           haalJson("data/historie.json").catch(() => []),
         ]);
+        STATE = state;
         HISTORIE = Array.isArray(historie) ? historie : [];
         const grid = document.getElementById("grid");
-        BRONNEN.forEach(b => grid.appendChild(bouwKaart(b, state)));
+        BRONNEN.forEach(b => grid.appendChild(bouwSamenvatting(b, state)));
         bouwTijdlijn();
         const checks = BRONNEN.map(b => state[b.id]?.laatste_check).filter(Boolean).sort();
-        gm.innerHTML = `Laatste check: <strong>${isoNaarNL(checks[checks.length-1] || "")}</strong>
-          · ${HISTORIE.length} geregistreerde wijziging(en) in de tijdlijn.`;
+        overview.innerHTML =
+          tile("Bronnen gemonitord", BRONNEN.length)
+          + tile("Landen op lijsten", telActieveListings(state))
+          + tile("Wijzigingen gelogd", HISTORIE.length)
+          + tileDate("Laatste check", isoNaarNL(checks[checks.length-1] || "—"));
+        route();
       } catch (err) {
-        gm.innerHTML = `<span style="color:var(--err)">Kon gegevens niet laden: ${esc(err.message)}</span>`;
+        overview.innerHTML = `<div class="tile" style="grid-column:1/-1">
+          <div class="k" style="color:var(--err)">Fout</div>
+          <div class="v date" style="color:var(--err)">Kon gegevens niet laden: ${esc(err.message)}</div></div>`;
       }
     })();
   </script>
