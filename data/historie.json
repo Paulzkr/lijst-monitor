@@ -1,0 +1,34 @@
+[
+  {
+    "datum": "2026-01-29",
+    "bron_id": "eu_aml",
+    "bron": "EU AML-hoogrisicolanden",
+    "toegevoegd": ["Bolivia", "Britse Maagdeneilanden", "Rusland"],
+    "verwijderd": [],
+    "notitie": "Gedelegeerde Verordeningen (EU) 2026/46 en (EU) 2026/83."
+  },
+  {
+    "datum": "2026-02-17",
+    "bron_id": "eu_tax",
+    "bron": "EU fiscale lijst niet-coöperatieve jurisdicties",
+    "toegevoegd": [],
+    "verwijderd": [],
+    "notitie": "Nieuwe stand ECOFIN (Bijlage I: 10, Bijlage II: 9)."
+  },
+  {
+    "datum": "2026-04-23",
+    "bron_id": "eu_sancties",
+    "bron": "EU-sancties",
+    "toegevoegd": [],
+    "verwijderd": [],
+    "notitie": "20e sanctiepakket tegen Rusland (120 listings)."
+  },
+  {
+    "datum": "2026-06-19",
+    "bron_id": "fatf",
+    "bron": "FATF grijze lijst",
+    "toegevoegd": ["Irak", "Bosnië-Herzegovina"],
+    "verwijderd": ["Algerije", "Namibië"],
+    "notitie": "Grijze lijst; zwarte lijst ongewijzigd."
+  }
+]

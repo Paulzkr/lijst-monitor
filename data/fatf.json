@@ -1,0 +1,34 @@
+{
+  "bijgewerkt_per": "2026-06-19",
+  "bron": "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html",
+  "toelichting": "Handmatig bijgehouden — FATF blokkeert geautomatiseerde toegang. Bijwerken na elke plenaire (februari, juni, oktober).",
+  "zwarte_lijst": [
+    "Iran",
+    "Noord-Korea (DPRK)",
+    "Myanmar"
+  ],
+  "grijze_lijst": [
+    "Angola",
+    "Bolivia",
+    "Bosnië-Herzegovina",
+    "Bulgarije",
+    "Kameroen",
+    "Ivoorkust",
+    "DR Congo",
+    "Haïti",
+    "Irak",
+    "Kenia",
+    "Koeweit",
+    "Laos",
+    "Libanon",
+    "Monaco",
+    "Nepal",
+    "Papoea-Nieuw-Guinea",
+    "Zuid-Soedan",
+    "Syrië",
+    "Venezuela",
+    "Vietnam",
+    "Britse Maagdeneilanden",
+    "Jemen"
+  ]
+}

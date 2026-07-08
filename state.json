@@ -1,14 +1,514 @@
 {
   "eu_aml": {
-    "hash": "acd1269ceee654f1e74af64af38f783e35c3b75c2230e51ab86625460fae0b0f",
-    "fragment": "On 3 and 4 December 2025, the European Commission adopted two new Delegated Regulations (EU) 2026/46 and (EU) 2026/83 in relation to third countries which have strategic deficiencies in their AML/CFT regimes. These Delegated Regulations amend Delegated Regulation (EU) 2016/1675 . The following jurisdictions are identified as having strategic deficiencies in their AML/CFT regimes: High-risk third country Date of entry into force Afghanistan 23 September 2016 Algeria 5 August 2025 Angola 5 August 2025 Bolivia 29 January 2026 British Virgin Islands 29 January 2026 Cameroon 18 October 2023 Côte d’"
+    "status": "ok",
+    "laatste_check": "2026-07-08",
+    "laatste_wijziging": "2026-01-29",
+    "landen": [
+      {
+        "naam": "Afghanistan",
+        "datum_inwerkingtreding": "23 September 2016",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Algeria",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Angola",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Bolivia",
+        "datum_inwerkingtreding": "29 January 2026",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "British Virgin Islands",
+        "datum_inwerkingtreding": "29 January 2026",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Cameroon",
+        "datum_inwerkingtreding": "18 October 2023",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Côte d’Ivoire",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Democratic People's Republic of Korea (DPRK)",
+        "datum_inwerkingtreding": "23 September 2016",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Democratic Republic of the Congo",
+        "datum_inwerkingtreding": "16 March 2023",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Haiti",
+        "datum_inwerkingtreding": "13 March 2022",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Iran",
+        "datum_inwerkingtreding": "23 September 2016",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Kenya",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Laos",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Lebanon",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Monaco",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Myanmar",
+        "datum_inwerkingtreding": "1 October 2020",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Namibia",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Nepal",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Russian Federation",
+        "datum_inwerkingtreding": "29 January 2026",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "South Sudan",
+        "datum_inwerkingtreding": "13 March 2022",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Syria",
+        "datum_inwerkingtreding": "23 September 2016",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Trinidad and Tobago",
+        "datum_inwerkingtreding": "6 March 2018",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Vanuatu",
+        "datum_inwerkingtreding": "23 September 2016",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Venezuela",
+        "datum_inwerkingtreding": "5 August 2025",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Vietnam",
+        "datum_inwerkingtreding": "18 October 2023",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Yemen",
+        "datum_inwerkingtreding": "23 September 2016",
+        "status": "actueel",
+        "mutatiedatum": null
+      }
+    ],
+    "officiele_historie": [
+      {
+        "datum": "9 January 2026",
+        "naam": "Publication of Commission Delegated Regulation (EU) 2026/46 and (EU) 2026/83 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L_202600046"
+      },
+      {
+        "datum": "16 July 2025",
+        "naam": "Publication of Commission Delegated Regulation (EU) 2025/1184 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/en/TXT/?uri=CELEX:32025R1184"
+      },
+      {
+        "datum": "18 January 2024",
+        "naam": "Publication of Commission Delegated Regulation (EU) 2024/163 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32024R0163"
+      },
+      {
+        "datum": "28 September 2023",
+        "naam": "Publication of Commission Delegated Regulation (EU) 2023/2070 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R2070"
+      },
+      {
+        "datum": "26 June 2023",
+        "naam": "Publication of Commission Delegated Regulation (EU) 2023/1219 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R1219"
+      },
+      {
+        "datum": "24 February 2023",
+        "naam": "Publication of Commission Delegated Regulation (EU) 2023/410 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32023R0410"
+      },
+      {
+        "datum": "21 February 2022",
+        "naam": "Publication of Commission Delegated Regulation (EU) 2022/229 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022R0229"
+      },
+      {
+        "datum": "7 December 2020",
+        "naam": "Publication of Delegated Regulation (EU) 2021/37 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32021R0037"
+      },
+      {
+        "datum": "7 May 2020",
+        "naam": "Revised methodology for identifying high risk third countries FATF lists as a baseline/ and increased synergies with FATF listing process additiona…",
+        "link": "https://finance.ec.europa.eu/document/download/f745b6e8-735b-4855-b050-f52276356fe6_en?filename=200507-anti-money-laundering-terrorism-financing-action-plan-methodology_en.pdf"
+      },
+      {
+        "datum": "27 July 2018",
+        "naam": "Publication of the Delegated Regulation (EU) 2018/1467 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32018R1467"
+      },
+      {
+        "datum": "22 June 2018",
+        "naam": "First methodology for identifying high risk third countries FATF lists as a baseline additional countries based on EU own assessment",
+        "link": "https://ec.europa.eu/info/files/methodology-high-risk-third-countries_en"
+      },
+      {
+        "datum": "13 December 2017",
+        "naam": "Publication of Delegated Regulation (EU) 2018/212 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32018R0212"
+      },
+      {
+        "datum": "27 October 2017",
+        "naam": "Publication of Delegated Regulation (EU) 2018/105 amending the EU list",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32018R0105"
+      },
+      {
+        "datum": "14 July 2016",
+        "naam": "First EU list – based on FATF lists ( Delegated Regulation (EU) 1675/2016)",
+        "link": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32016R1675"
+      }
+    ]
   },
   "eu_tax": {
-    "hash": "2999675fc19d5c64d4a40ddf7a69eb50ec8d0971925b544f013c42277fae83f5",
-    "fragment": "The countries in the list below are those that failed to comply with tax good governance criteria within a specific timeframe or refused to engage with the EU (situation on 17 February 2026). Annex I: 10 jurisdictions American Samoa, Anguilla, Guam, Palau, Panama, the Russian Federation, Turks and Caicos, US Virgin Islands, Vanuatu and Viet Nam Annex II: 09 jurisdictions Belize, British Virgin Islands, Brunei Darussalam, Eswatini, Greenland, Jordan, Montenegro, Morocco, and Türkiye Evolution of the EU List 17 FEBRUARY 2026 EU List Evolution - 17 February 2026 English (1.16 MB - PDF) Download"
+    "status": "ok",
+    "laatste_check": "2026-07-08",
+    "laatste_wijziging": "2026-02-17",
+    "bijlage_1": [
+      {
+        "naam": "American Samoa",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Anguilla",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Guam",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Palau",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Panama",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Russian Federation",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Turks and Caicos",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "US Virgin Islands",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Vanuatu",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Viet Nam",
+        "status": "actueel",
+        "mutatiedatum": null
+      }
+    ],
+    "bijlage_2": [
+      {
+        "naam": "Belize",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "British Virgin Islands",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Brunei Darussalam",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Eswatini",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Greenland",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Jordan",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Montenegro",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Morocco",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Türkiye",
+        "status": "actueel",
+        "mutatiedatum": null
+      }
+    ],
+    "officiele_historie": [
+      {
+        "datum": "2026-02-17",
+        "link": "https://finance.ec.europa.eu/document/download/3ceac073-5184-46a0-864a-b3038e4d9a6b_en?filename=eu_list_update_17-02-2026.pdf"
+      }
+    ]
   },
   "eu_sancties": {
-    "hash": "6f7582ee7be22c2a60a2a6c2cfb1d16144e18c0ba9d3af7b52c9035a6df677fb",
-    "fragment": ": 15 June 2026 - New FAQ on the import ban on refined products obtained from Russian crude oil Latest update: 22 May 2026 - Updated FAQ on tanker sales and targeted vessels Latest update: 23 April 2026 - 20th package of sanctions against Russia Previous news item Play news ticker Pause news ticker Next news item 1 of 3 What are sanctions (restrictive measures)"
+    "status": "ok",
+    "laatste_check": "2026-07-08",
+    "laatste_wijziging": "2026-04-23",
+    "updates": [
+      {
+        "datum": "2026-06-15",
+        "tekst": "New FAQ on the import ban on refined products obtained from Russian crude oil",
+        "link": "https://finance.ec.europa.eu/publications/import-ban-refined-products-obtained-russian-crude-oil_en"
+      },
+      {
+        "datum": "2026-05-22",
+        "tekst": "Updated FAQ on tanker sales and targeted vessels",
+        "link": "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/sanctions-adopted-following-russias-military-aggression-against-ukraine/frequently-asked-questions-sanctions-against-russia_en"
+      },
+      {
+        "datum": "2026-04-23",
+        "tekst": "20th package of sanctions against Russia",
+        "link": "https://finance.ec.europa.eu/news/eu-adopts-20th-package-sanctions-against-russia-2026-04-23_en"
+      }
+    ]
+  },
+  "fatf": {
+    "status": "ok",
+    "bijgewerkt_per": "2026-06-19",
+    "laatste_check": "2026-07-08",
+    "laatste_wijziging": "2026-06-19",
+    "zwarte_lijst": [
+      {
+        "naam": "Iran",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Noord-Korea (DPRK)",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Myanmar",
+        "status": "actueel",
+        "mutatiedatum": null
+      }
+    ],
+    "grijze_lijst": [
+      {
+        "naam": "Angola",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Bolivia",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Bosnië-Herzegovina",
+        "status": "nieuw",
+        "mutatiedatum": "2026-06-19"
+      },
+      {
+        "naam": "Bulgarije",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Kameroen",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Ivoorkust",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "DR Congo",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Haïti",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Irak",
+        "status": "nieuw",
+        "mutatiedatum": "2026-06-19"
+      },
+      {
+        "naam": "Kenia",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Koeweit",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Laos",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Libanon",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Monaco",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Nepal",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Papoea-Nieuw-Guinea",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Zuid-Soedan",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Syrië",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Venezuela",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Vietnam",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Britse Maagdeneilanden",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Jemen",
+        "status": "actueel",
+        "mutatiedatum": null
+      },
+      {
+        "naam": "Algerije",
+        "status": "verwijderd",
+        "mutatiedatum": "2026-06-19"
+      },
+      {
+        "naam": "Namibië",
+        "status": "verwijderd",
+        "mutatiedatum": "2026-06-19"
+      }
+    ]
   }
 }

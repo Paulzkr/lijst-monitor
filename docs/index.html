@@ -6,82 +6,88 @@
   <title>Lijst-monitor — risicolanden &amp; sancties</title>
   <style>
     :root {
-      --bg: #f5f6f8;
-      --card: #ffffff;
-      --ink: #1a1f2b;
-      --muted: #5b6472;
-      --line: #e2e5ea;
-      --accent: #1f5fbf;
-      --ok: #1a7f4b;
-      --warn: #b06a00;
-      --err: #b42318;
-      --shadow: 0 1px 3px rgba(20,30,50,.08), 0 1px 2px rgba(20,30,50,.06);
-      --radius: 12px;
+      --bg: #f4f6f9; --card: #fff; --ink: #16202e; --muted: #5b6472;
+      --line: #e3e7ee; --accent: #1f5fbf;
+      --ok: #1a7f4b; --ok-bg: #e6f4ec; --warn: #b06a00; --warn-bg: #fbf0dd;
+      --err: #b42318; --err-bg: #fbe9e7;
+      --chip: #eef1f6; --shadow: 0 1px 3px rgba(20,30,50,.08);
     }
     @media (prefers-color-scheme: dark) {
       :root {
-        --bg: #0f1420;
-        --card: #171d2b;
-        --ink: #e7ebf2;
-        --muted: #9aa4b5;
-        --line: #262e40;
-        --accent: #6ea8fe;
-        --ok: #4ec07f;
-        --warn: #e2a33a;
-        --err: #f0857a;
-        --shadow: 0 1px 3px rgba(0,0,0,.4);
+        --bg: #0e1320; --card: #161d2b; --ink: #e7ebf2; --muted: #96a0b1;
+        --line: #263042; --accent: #6ea8fe;
+        --ok: #58c98a; --ok-bg: #123324; --warn: #e2a33a; --warn-bg: #33280f;
+        --err: #f0857a; --err-bg: #3a1d1a;
+        --chip: #1f2838; --shadow: 0 1px 3px rgba(0,0,0,.4);
       }
     }
     * { box-sizing: border-box; }
-    body {
-      margin: 0;
-      font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      -webkit-font-smoothing: antialiased;
-    }
-    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
-    header h1 { margin: 0 0 4px; font-size: 1.7rem; letter-spacing: -.01em; }
-    header p { margin: 0; color: var(--muted); }
-    .meta { margin-top: 14px; font-size: .85rem; color: var(--muted); }
-    .meta code { background: var(--card); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--line); }
-    .grid { margin-top: 28px; display: grid; gap: 18px; }
-    .card {
-      background: var(--card);
-      border: 1px solid var(--line);
-      border-radius: var(--radius);
-      box-shadow: var(--shadow);
-      padding: 20px 22px;
-    }
-    .card h2 { margin: 0; font-size: 1.08rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
-    .badge {
-      font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 999px;
-      text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
-    }
-    .badge.ok   { color: var(--ok);   background: color-mix(in srgb, var(--ok) 14%, transparent); }
-    .badge.warn { color: var(--warn); background: color-mix(in srgb, var(--warn) 16%, transparent); }
-    .badge.err  { color: var(--err);  background: color-mix(in srgb, var(--err) 14%, transparent); }
-    .src { margin: 8px 0 12px; font-size: .85rem; }
+    body { margin: 0; background: var(--bg); color: var(--ink);
+      font: 16px/1.55 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased; }
+    .wrap { max-width: 940px; margin: 0 auto; padding: 32px 20px 72px; }
+    header h1 { margin: 0 0 4px; font-size: 1.75rem; letter-spacing: -.01em; }
+    header p.lead { margin: 0; color: var(--muted); }
+    .grid { margin-top: 26px; display: grid; gap: 18px; }
+    .card { background: var(--card); border: 1px solid var(--line);
+      border-radius: 12px; box-shadow: var(--shadow); padding: 20px 22px; }
+    .card > h2 { margin: 0; font-size: 1.12rem; display: flex; gap: 10px;
+      align-items: center; flex-wrap: wrap; }
+    .status { font-size: .68rem; font-weight: 700; padding: 3px 9px;
+      border-radius: 999px; text-transform: uppercase; letter-spacing: .04em; }
+    .status.ok { color: var(--ok); background: var(--ok-bg); }
+    .status.warn { color: var(--warn); background: var(--warn-bg); }
+    .src { margin: 6px 0 2px; font-size: .82rem; }
     .src a { color: var(--accent); text-decoration: none; word-break: break-all; }
     .src a:hover { text-decoration: underline; }
-    .fragment {
-      margin: 0; padding: 14px 16px; border-radius: 10px;
-      background: var(--bg); border: 1px solid var(--line);
-      font-size: .9rem; color: var(--ink);
-      white-space: pre-wrap; word-break: break-word;
-    }
-    .fragment.empty { color: var(--muted); font-style: italic; }
-    .hash { margin-top: 10px; font-size: .75rem; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
-    .fallback { margin-top: 10px; font-size: .85rem; color: var(--muted); }
-    .fallback strong { color: var(--ink); }
-    .note {
-      margin-top: 28px; padding: 16px 18px; border-radius: 10px;
-      background: color-mix(in srgb, var(--warn) 10%, var(--card));
-      border: 1px solid color-mix(in srgb, var(--warn) 30%, var(--line));
-      font-size: .88rem; color: var(--ink);
-    }
+    .meta { font-size: .8rem; color: var(--muted); margin: 8px 0 14px;
+      border-bottom: 1px solid var(--line); padding-bottom: 12px; }
+    .sub { margin-top: 16px; }
+    .sub h4 { margin: 0 0 8px; font-size: .82rem; text-transform: uppercase;
+      letter-spacing: .05em; color: var(--muted); font-weight: 700; }
+    .listtitle { font-size: .9rem; font-weight: 600; margin: 12px 0 6px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { background: var(--chip); border: 1px solid var(--line);
+      border-radius: 8px; padding: 5px 10px; font-size: .86rem;
+      display: inline-flex; align-items: center; gap: 7px; }
+    .chip-nieuw { border-color: var(--ok); background: var(--ok-bg); }
+    .chip-verwijderd { border-color: var(--err); background: var(--err-bg);
+      text-decoration: line-through; color: var(--muted); }
+    .mini { font-size: .62rem; font-weight: 700; padding: 2px 6px;
+      border-radius: 5px; text-transform: uppercase; letter-spacing: .03em;
+      text-decoration: none; white-space: nowrap; }
+    .mini-nieuw { color: #fff; background: var(--ok); }
+    .mini-verwijderd { color: #fff; background: var(--err); }
+    table.aml { width: 100%; border-collapse: collapse; font-size: .88rem; }
+    table.aml td { padding: 6px 8px; border-bottom: 1px solid var(--line);
+      vertical-align: middle; }
+    table.aml td.datum { color: var(--muted); white-space: nowrap; width: 1%; }
+    table.aml tr.verwijderd td.naam { text-decoration: line-through; color: var(--muted); }
+    .deltas { display: flex; flex-wrap: wrap; gap: 8px; }
+    .delta { font-size: .86rem; font-weight: 600; padding: 3px 9px; border-radius: 7px; }
+    .delta.plus { color: var(--ok); background: var(--ok-bg); }
+    .delta.min { color: var(--err); background: var(--err-bg); }
+    .muted { color: var(--muted); }
+    .small { font-size: .8rem; }
+    ul.hist { margin: 6px 0 0; padding-left: 0; list-style: none; }
+    ul.hist li { padding: 5px 0; border-bottom: 1px solid var(--line); font-size: .87rem; }
+    ul.hist li:last-child { border-bottom: none; }
+    ul.hist .d { color: var(--muted); font-variant-numeric: tabular-nums; margin-right: 8px; }
+    ul.hist a { color: var(--accent); text-decoration: none; }
+    ul.hist a:hover { text-decoration: underline; }
+    details > summary { cursor: pointer; color: var(--accent); font-size: .84rem;
+      margin-top: 8px; list-style-position: inside; }
+    .note { margin-top: 26px; padding: 15px 18px; border-radius: 10px;
+      background: var(--warn-bg); border: 1px solid var(--line); font-size: .87rem; }
     .note strong { color: var(--warn); }
-    footer { margin-top: 32px; font-size: .8rem; color: var(--muted); text-align: center; }
+    .timeline { margin-top: 26px; }
+    .timeline > summary { font-size: 1rem; font-weight: 600; color: var(--ink); }
+    .tl { margin: 14px 0 0; padding: 0; list-style: none; }
+    .tl li { padding: 10px 0; border-bottom: 1px solid var(--line); }
+    .tl .row1 { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; }
+    .tl .d { font-variant-numeric: tabular-nums; color: var(--muted); font-size: .82rem; }
+    .tl .b { font-weight: 600; font-size: .9rem; }
+    footer { margin-top: 30px; font-size: .78rem; color: var(--muted); text-align: center; }
     footer a { color: var(--accent); text-decoration: none; }
     .status-loading { color: var(--muted); }
   </style>
@@ -90,156 +96,283 @@
   <div class="wrap">
     <header>
       <h1>Lijst-monitor — risicolanden &amp; sancties</h1>
-      <p>Actuele stand van de vier gemonitorde bronnen (Wwft / sancties).</p>
-      <div class="meta" id="meta"><span class="status-loading">Gegevens laden…</span></div>
+      <p class="lead">Actuele landenlijsten en wijzigingshistorie van de vier gemonitorde bronnen (Wwft / sancties).</p>
+      <p class="lead small" id="global-meta"><span class="status-loading">Gegevens laden…</span></p>
     </header>
 
     <div class="grid" id="grid"></div>
 
+    <details class="timeline" id="timeline">
+      <summary>Volledige wijzigingstijdlijn (alle gedetecteerde mutaties)</summary>
+      <ul class="tl" id="tl"></ul>
+    </details>
+
     <div class="note">
       <strong>Let op — beleidsmonitoring, geen sanctiescreening.</strong>
-      Deze pagina toont de laatst vastgelegde stand uit <code>state.json</code>.
-      Nieuwe EU-listings zijn bindend vanaf publicatie in het Publicatieblad;
-      cliëntscreening moet via een tool die de geconsolideerde lijst dagelijks inleest.
+      Deze pagina toont de laatst vastgelegde stand. Nieuwe EU-listings zijn
+      bindend vanaf publicatie in het Publicatieblad; cliëntscreening moet via
+      een tool die de geconsolideerde lijst dagelijks inleest.
+      NIEUW/VERWIJDERD-badges vervallen automatisch 90 dagen na de mutatiedatum.
     </div>
 
     <footer>
       Bron: <a href="https://github.com/Paulzkr/lijst-monitor" target="_blank" rel="noopener">Paulzkr/lijst-monitor</a>
-      · gegenereerd uit <code style="font-family:inherit">state.json</code>
+      · gegenereerd uit <code style="font-family:inherit">state.json</code> en <code style="font-family:inherit">data/historie.json</code>
     </footer>
   </div>
 
   <script>
-    // De vier bronnen zoals gedefinieerd in monitor.py. state.json bevat de
-    // laatst vastgelegde stand per bron-id; een ontbrekende id betekent dat de
-    // bron bij de laatste run niet bereikbaar was (bijv. FATF-403).
-    const SOURCES = [
-      {
-        id: "eu_aml",
-        naam: "EU AML-hoogrisicolanden (DG FISMA)",
-        url: "https://finance.ec.europa.eu/financial-crime/anti-money-laundering-and-countering-financing-terrorism-international-level_en"
-      },
-      {
-        id: "eu_tax",
-        naam: "EU fiscale lijst niet-coöperatieve jurisdicties (DG TAXUD)",
-        url: "https://taxation-customs.ec.europa.eu/taxation/common-eu-list-third-country-jurisdictions-tax-purposes_en"
-      },
-      {
-        id: "fatf",
-        naam: "FATF zwarte/grijze lijst",
-        url: "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html",
-        // FATF weert soms geautomatiseerde toegang (403). Vast vangnet: de FATF
-        // publiceert wijzigingen altijd direct na de plenaires (feb/jun/okt).
-        plenaireMaanden: [2, 6, 10]
-      },
-      {
-        id: "eu_sancties",
-        naam: "EU-sancties nieuwsoverzicht (DG FISMA)",
-        url: "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en"
-      }
+    const RAW = "https://raw.githubusercontent.com/Paulzkr/lijst-monitor/main/";
+    const VENSTER_DAGEN = 90;
+
+    const FATF_URL = "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html";
+    const BRONNEN = [
+      { id: "eu_aml", naam: "EU AML-hoogrisicolanden", instantie: "DG FISMA", type: "aml",
+        url: "https://finance.ec.europa.eu/financial-crime/anti-money-laundering-and-countering-financing-terrorism-international-level_en" },
+      { id: "eu_tax", naam: "EU fiscale lijst niet-coöperatieve jurisdicties", instantie: "DG TAXUD", type: "tax",
+        url: "https://taxation-customs.ec.europa.eu/taxation/common-eu-list-third-country-jurisdictions-tax-purposes_en" },
+      { id: "eu_sancties", naam: "EU-sancties nieuwsoverzicht", instantie: "DG FISMA", type: "sancties",
+        url: "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en" },
+      { id: "fatf", naam: "FATF zwarte/grijze lijst", instantie: "handmatig bijgehouden", type: "fatf", url: FATF_URL },
     ];
 
-    const MAANDEN = ["januari","februari","maart","april","mei","juni",
-                     "juli","augustus","september","oktober","november","december"];
-
-    // Eerstvolgende FATF-plenaire (feb/jun/okt) t.o.v. vandaag.
-    function volgendePlenaire(maanden) {
-      const now = new Date();
-      const jaar = now.getFullYear();
-      const maandNu = now.getMonth() + 1; // 1-12
-      for (const m of maanden) {
-        if (m >= maandNu) return `${MAANDEN[m - 1]} ${jaar}`;
-      }
-      return `${MAANDEN[maanden[0] - 1]} ${jaar + 1}`;
-    }
-
-    // Pages publiceert de docs/-map; state.json staat in de repo-root.
-    // Probeer eerst een lokale kopie (mocht die er ooit komen), val terug op raw GitHub.
-    const CANDIDATES = [
-      "./state.json",
-      "https://raw.githubusercontent.com/Paulzkr/lijst-monitor/main/state.json"
-    ];
+    const MND = { january:1, february:2, march:3, april:4, may:5, june:6,
+      july:7, august:8, september:9, october:10, november:11, december:12 };
+    const MND_NL = ["januari","februari","maart","april","mei","juni",
+      "juli","augustus","september","oktober","november","december"];
 
     function esc(s) {
-      return String(s).replace(/[&<>"']/g, c => (
-        {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]
-      ));
+      return String(s == null ? "" : s).replace(/[&<>"']/g,
+        c => ({ "&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;" }[c]));
+    }
+    function isoNaarNL(iso) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
+      return m ? `${m[3]}-${m[2]}-${m[1]}` : (iso || "—");
+    }
+    function engNaarNL(s) {
+      const m = /(\d{1,2})\s+([A-Za-z]+)\s+(\d{4})/.exec(s || "");
+      if (!m) return s || "—";
+      const mn = MND[m[2].toLowerCase()];
+      if (!mn) return s;
+      return `${String(+m[1]).padStart(2,"0")}-${String(mn).padStart(2,"0")}-${m[3]}`;
+    }
+    function fmtDatum(s) {
+      if (!s) return "—";
+      if (/^\d{4}-\d{2}-\d{2}/.test(s)) return isoNaarNL(s);
+      if (/^\d{1,2}\s+[A-Za-z]+\s+\d{4}/.test(s)) return engNaarNL(s);
+      return s;
+    }
+    function dagenSinds(iso) {
+      const m = /^(\d{4})-(\d{2})-(\d{2})/.exec(iso || "");
+      if (!m) return 0;
+      const d = new Date(+m[1], +m[2]-1, +m[3]);
+      return (new Date() - d) / 86400000;
+    }
+    // Effectieve status met 90-dagen-venster (opruimen ook bij render).
+    function effectief(status, mutatiedatum) {
+      if ((status === "nieuw" || status === "verwijderd") && mutatiedatum
+          && dagenSinds(mutatiedatum) > VENSTER_DAGEN) {
+        return status === "nieuw" ? "actueel" : "weg";
+      }
+      return status || "actueel";
+    }
+    function volgendePlenaire() {
+      const now = new Date(), maanden = [2, 6, 10], mnd = now.getMonth() + 1;
+      for (const m of maanden) if (m >= mnd) return `${MND_NL[m-1]} ${now.getFullYear()}`;
+      return `${MND_NL[maanden[0]-1]} ${now.getFullYear()+1}`;
     }
 
-    async function loadState() {
-      for (const url of CANDIDATES) {
-        try {
-          const r = await fetch(url, { cache: "no-store" });
-          if (r.ok) return await r.json();
-        } catch (_) { /* volgende kandidaat proberen */ }
+    function chip(entry, badgeDatumOverride) {
+      const eff = effectief(entry.status, entry.mutatiedatum);
+      if (eff === "weg") return "";
+      if (eff === "nieuw") {
+        const d = badgeDatumOverride ? engNaarNL(badgeDatumOverride) : isoNaarNL(entry.mutatiedatum);
+        return `<span class="chip chip-nieuw">${esc(entry.naam)}<span class="mini mini-nieuw">NIEUW ${d}</span></span>`;
       }
-      throw new Error("state.json kon niet worden geladen");
+      if (eff === "verwijderd") {
+        return `<span class="chip chip-verwijderd">${esc(entry.naam)}<span class="mini mini-verwijderd">VERWIJDERD ${isoNaarNL(entry.mutatiedatum)}</span></span>`;
+      }
+      return `<span class="chip">${esc(entry.naam)}</span>`;
+    }
+    function chips(entries, override) {
+      const html = (entries || []).map(e => chip(e, override && e.datum_inwerkingtreding))
+        .filter(Boolean).join("");
+      return html || '<span class="muted small">Geen landen.</span>';
     }
 
-    function render(state) {
-      const grid = document.getElementById("grid");
-      grid.innerHTML = "";
-      for (const src of SOURCES) {
-        const entry = state[src.id];
-        const card = document.createElement("div");
-        card.className = "card";
-
-        let badge, fragmentHtml, hashHtml = "";
-        if (entry && entry.fragment) {
-          badge = '<span class="badge ok">vastgelegd</span>';
-          fragmentHtml = `<p class="fragment">${esc(entry.fragment)}</p>`;
-          if (entry.hash) {
-            hashHtml = `<div class="hash">sha256: ${esc(entry.hash.slice(0, 16))}…</div>`;
-          }
-        } else {
-          badge = '<span class="badge warn">niet bereikbaar bij laatste run</span>';
-          fragmentHtml = '<p class="fragment empty">Geen stand vastgelegd — bron handmatig controleren.</p>';
-          if (src.plenaireMaanden) {
-            hashHtml =
-              `<div class="fallback">FATF weert soms geautomatiseerde toegang. ` +
-              `Wijzigingen worden altijd gepubliceerd direct na de plenaires ` +
-              `(februari, juni, oktober). ` +
-              `<strong>Eerstvolgende: ${volgendePlenaire(src.plenaireMaanden)}.</strong></div>`;
-          }
-        }
-
-        card.innerHTML =
-          `<h2>${esc(src.naam)} ${badge}</h2>` +
-          `<div class="src"><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.url)}</a></div>` +
-          fragmentHtml + hashHtml;
-        grid.appendChild(card);
-      }
+    // ---- data ----
+    let HISTORIE = [];
+    function recentsteMutatie(bronId) {
+      return HISTORIE.filter(h => h.bron_id === bronId)
+        .sort((a, b) => (a.datum < b.datum ? 1 : -1))[0] || null;
+    }
+    function laatsteWijzigingBlok(bronId) {
+      const h = recentsteMutatie(bronId);
+      if (!h) return `<div class="sub"><h4>Laatst gedetecteerde wijziging</h4>
+        <p class="muted small">Geen wijziging geregistreerd.</p></div>`;
+      const parts = [];
+      (h.toegevoegd || []).forEach(n => parts.push(`<span class="delta plus">+ ${esc(n)}</span>`));
+      (h.verwijderd || []).forEach(n => parts.push(`<span class="delta min">− ${esc(n)}</span>`));
+      const body = parts.length ? `<div class="deltas">${parts.join("")}</div>` : "";
+      const note = h.notitie ? `<div class="muted small" style="margin-top:6px">${esc(h.notitie)}</div>` : "";
+      return `<div class="sub"><h4>Laatst gedetecteerde wijziging
+        <span class="muted small">(${isoNaarNL(h.datum)})</span></h4>${body || '<span class="muted small">Geen landmutatie.</span>'}${note}</div>`;
     }
 
-    // Datum van de laatste commit op state.json via de GitHub API (CORS-vrij).
-    async function laatstBijgewerkt() {
-      try {
-        const r = await fetch(
-          "https://api.github.com/repos/Paulzkr/lijst-monitor/commits?path=state.json&per_page=1",
-          { cache: "no-store", headers: { "Accept": "application/vnd.github+json" } }
-        );
-        if (!r.ok) return null;
-        const commits = await r.json();
-        const iso = commits?.[0]?.commit?.committer?.date;
-        if (!iso) return null;
-        const d = new Date(iso);
-        return `${d.getDate()} ${MAANDEN[d.getMonth()]} ${d.getFullYear()}`;
-      } catch (_) {
-        return null;
+    function metaRegel(d) {
+      return `<div class="meta">Laatste check: <strong>${isoNaarNL(d.laatste_check)}</strong>
+        · Laatste wijziging: <strong>${isoNaarNL(d.laatste_wijziging)}</strong></div>`;
+    }
+    function statusBadge(d) {
+      if (d.status === "structuur_gewijzigd")
+        return '<span class="status warn">structuur gewijzigd</span>';
+      if (d.status === "niet_bereikbaar")
+        return '<span class="status warn">niet bereikbaar</span>';
+      return '<span class="status ok">actueel</span>';
+    }
+    function structuurWaarschuwing(d, url) {
+      if (d.status === "structuur_gewijzigd")
+        return `<p class="muted small" style="color:var(--warn)">Structuur gewijzigd — handmatig controleren via <a href="${esc(url)}" target="_blank" rel="noopener">de bronpagina</a>. Onderstaande lijst is de laatst bekende stand.</p>`;
+      return "";
+    }
+
+    // ---- officiële historie per brontype ----
+    function officieleHistorieAml(d, url) {
+      const h = d.officiele_historie;
+      if (!h) return historieOnleesbaar(url);
+      const rij = e => `<li><span class="d">${esc(engNaarNL(e.datum))}</span>${
+        e.link ? `<a href="${esc(e.link)}" target="_blank" rel="noopener">${esc(e.naam)}</a>` : esc(e.naam)}</li>`;
+      const eerste = h.slice(0, 3).map(rij).join("");
+      const rest = h.slice(3).map(rij).join("");
+      const meer = rest ? `<details><summary>Toon volledige historie (${h.length})</summary><ul class="hist">${rest}</ul></details>` : "";
+      return `<div class="sub"><h4>Officiële wijzigingshistorie van de bron</h4>
+        <ul class="hist">${eerste}</ul>${meer}</div>`;
+    }
+    function officieleHistorieTax(d, url) {
+      const h = d.officiele_historie;
+      if (!h || !h.length) return historieOnleesbaar(url);
+      const e = h[0];
+      const link = e.link
+        ? `<a href="${esc(e.link)}" target="_blank" rel="noopener">Evolutie-overzicht (PDF) downloaden</a>`
+        : `<a href="${esc(url)}" target="_blank" rel="noopener">Zie bronpagina</a>`;
+      return `<div class="sub"><h4>Officiële wijzigingshistorie van de bron</h4>
+        <p class="small">Meest recente update: <strong>${esc(fmtDatum(e.datum))}</strong> — ${link}</p></div>`;
+    }
+    function officieleHistorieSancties(d) {
+      const u = d.updates || [];
+      const items = u.map(x => `<li><span class="d">${isoNaarNL(x.datum)}</span>${
+        x.link ? `<a href="${esc(x.link)}" target="_blank" rel="noopener">${esc(x.tekst)}</a>` : esc(x.tekst)}</li>`).join("");
+      return `<div class="sub"><h4>Laatste updates (officiële nieuwsticker)</h4>
+        <ul class="hist">${items || '<li class="muted small">Geen updates.</li>'}</ul></div>`;
+    }
+    function officieleHistorieFatf(d) {
+      return `<div class="sub"><h4>Officiële wijzigingshistorie van de bron</h4>
+        <p class="small"><a href="${esc(FATF_URL)}" target="_blank" rel="noopener">Officiële statements per plenaire (feb/jun/okt)</a></p>
+        <p class="muted small">Handmatig bijgewerkt per <strong>${isoNaarNL(d.bijgewerkt_per)}</strong> · eerstvolgende plenaire ${volgendePlenaire()}.</p></div>`;
+    }
+    function historieOnleesbaar(url) {
+      return `<div class="sub"><h4>Officiële wijzigingshistorie van de bron</h4>
+        <p class="muted small">Historie niet uitleesbaar — <a href="${esc(url)}" target="_blank" rel="noopener">zie bronpagina</a>.</p></div>`;
+    }
+
+    // ---- kaart per bron ----
+    function kaartAml(bron, d) {
+      const rijen = (d.landen || []).map(e => {
+        const eff = effectief(e.status, e.mutatiedatum);
+        if (eff === "weg") return "";
+        let badge = "";
+        if (eff === "nieuw") badge = `<span class="mini mini-nieuw">NIEUW ${engNaarNL(e.datum_inwerkingtreding)}</span>`;
+        else if (eff === "verwijderd") badge = `<span class="mini mini-verwijderd">VERWIJDERD ${isoNaarNL(e.mutatiedatum)}</span>`;
+        return `<tr class="${eff === "verwijderd" ? "verwijderd" : ""}">
+          <td class="naam">${esc(e.naam)} ${badge}</td>
+          <td class="datum">${esc(e.datum_inwerkingtreding || "")}</td></tr>`;
+      }).filter(Boolean).join("");
+      return `<div class="sub"><h4>Actuele lijst (${(d.landen || []).filter(e => effectief(e.status,e.mutatiedatum)!=="weg").length} landen · datum inwerkingtreding)</h4>
+        <table class="aml"><tbody>${rijen}</tbody></table></div>
+        ${laatsteWijzigingBlok(bron.id)}
+        ${officieleHistorieAml(d, bron.url)}`;
+    }
+    function kaartTax(bron, d) {
+      return `<div class="sub"><h4>Actuele lijst</h4>
+        <div class="listtitle">Bijlage I — niet-coöperatieve jurisdicties (${(d.bijlage_1||[]).length})</div>
+        <div class="chips">${chips(d.bijlage_1)}</div>
+        <div class="listtitle">Bijlage II — jurisdicties onder toezicht (${(d.bijlage_2||[]).length})</div>
+        <div class="chips">${chips(d.bijlage_2)}</div></div>
+        ${laatsteWijzigingBlok(bron.id)}
+        ${officieleHistorieTax(d, bron.url)}`;
+    }
+    function kaartSancties(bron, d) {
+      return `${officieleHistorieSancties(d)}
+        ${laatsteWijzigingBlok(bron.id)}`;
+    }
+    function kaartFatf(bron, d) {
+      return `<div class="sub"><h4>Actuele lijst</h4>
+        <div class="listtitle">Zwarte lijst — call for action (${(d.zwarte_lijst||[]).length})</div>
+        <div class="chips">${chips(d.zwarte_lijst)}</div>
+        <div class="listtitle">Grijze lijst — verscherpt toezicht (${(d.grijze_lijst||[]).filter(e=>effectief(e.status,e.mutatiedatum)!=="weg").length})</div>
+        <div class="chips">${chips(d.grijze_lijst)}</div>
+        <p class="muted small" style="margin-top:8px">Handmatig bijgewerkt per <strong>${isoNaarNL(d.bijgewerkt_per)}</strong>, eerstvolgende plenaire ${volgendePlenaire()}.</p></div>
+        ${laatsteWijzigingBlok(bron.id)}
+        ${officieleHistorieFatf(d)}`;
+    }
+
+    function bouwKaart(bron, state) {
+      const d = state[bron.id];
+      const card = document.createElement("div");
+      card.className = "card";
+      if (!d) {
+        card.innerHTML = `<h2>${esc(bron.naam)} <span class="status warn">geen data</span></h2>
+          <div class="src"><a href="${esc(bron.url)}" target="_blank" rel="noopener">${esc(bron.url)}</a></div>
+          <p class="muted small">Nog geen stand vastgelegd.</p>`;
+        return card;
       }
+      let body;
+      if (bron.type === "aml") body = kaartAml(bron, d);
+      else if (bron.type === "tax") body = kaartTax(bron, d);
+      else if (bron.type === "sancties") body = kaartSancties(bron, d);
+      else body = kaartFatf(bron, d);
+      card.innerHTML = `<h2>${esc(bron.naam)} ${statusBadge(d)}</h2>
+        <div class="src">${esc(bron.instantie)} · <a href="${esc(bron.url)}" target="_blank" rel="noopener">${esc(bron.url)}</a></div>
+        ${metaRegel(d)}${structuurWaarschuwing(d, bron.url)}${body}`;
+      return card;
+    }
+
+    function bouwTijdlijn() {
+      const ul = document.getElementById("tl");
+      const gesorteerd = [...HISTORIE].sort((a, b) => (a.datum < b.datum ? 1 : -1));
+      ul.innerHTML = gesorteerd.map(h => {
+        const parts = [];
+        (h.toegevoegd || []).forEach(n => parts.push(`<span class="delta plus">+ ${esc(n)}</span>`));
+        (h.verwijderd || []).forEach(n => parts.push(`<span class="delta min">− ${esc(n)}</span>`));
+        const deltas = parts.length ? `<div class="deltas" style="margin-top:6px">${parts.join("")}</div>` : "";
+        const note = h.notitie ? `<div class="muted small" style="margin-top:4px">${esc(h.notitie)}</div>` : "";
+        return `<li><div class="row1"><span class="d">${isoNaarNL(h.datum)}</span>
+          <span class="b">${esc(h.bron)}</span></div>${deltas}${note}</li>`;
+      }).join("") || '<li class="muted small">Nog geen wijzigingen geregistreerd.</li>';
+    }
+
+    async function haalJson(pad) {
+      const r = await fetch(RAW + pad, { cache: "no-store" });
+      if (!r.ok) throw new Error(`${pad} (${r.status})`);
+      return r.json();
     }
 
     (async () => {
-      const meta = document.getElementById("meta");
+      const gm = document.getElementById("global-meta");
       try {
-        const state = await loadState();
-        render(state);
-        const n = SOURCES.filter(s => state[s.id]).length;
-        const datum = await laatstBijgewerkt();
-        const datumTekst = datum ? ` · stand laatst vastgelegd op <strong>${esc(datum)}</strong>` : "";
-        meta.innerHTML = `${n} van ${SOURCES.length} bronnen met vastgelegde stand · fragmenten komen rechtstreeks uit <code>state.json</code>${datumTekst}`;
+        const [state, historie] = await Promise.all([
+          haalJson("state.json"),
+          haalJson("data/historie.json").catch(() => []),
+        ]);
+        HISTORIE = Array.isArray(historie) ? historie : [];
+        const grid = document.getElementById("grid");
+        BRONNEN.forEach(b => grid.appendChild(bouwKaart(b, state)));
+        bouwTijdlijn();
+        const checks = BRONNEN.map(b => state[b.id]?.laatste_check).filter(Boolean).sort();
+        gm.innerHTML = `Laatste check: <strong>${isoNaarNL(checks[checks.length-1] || "")}</strong>
+          · ${HISTORIE.length} geregistreerde wijziging(en) in de tijdlijn.`;
       } catch (err) {
-        meta.innerHTML = `<span style="color:var(--err)">Fout: ${esc(err.message)}</span>`;
+        gm.innerHTML = `<span style="color:var(--err)">Kon gegevens niet laden: ${esc(err.message)}</span>`;
       }
     })();
   </script>
