@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Lijst-monitor — risicolanden &amp; sancties</title>
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --card: #ffffff;
+      --ink: #1a1f2b;
+      --muted: #5b6472;
+      --line: #e2e5ea;
+      --accent: #1f5fbf;
+      --ok: #1a7f4b;
+      --warn: #b06a00;
+      --err: #b42318;
+      --shadow: 0 1px 3px rgba(20,30,50,.08), 0 1px 2px rgba(20,30,50,.06);
+      --radius: 12px;
+    }
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --bg: #0f1420;
+        --card: #171d2b;
+        --ink: #e7ebf2;
+        --muted: #9aa4b5;
+        --line: #262e40;
+        --accent: #6ea8fe;
+        --ok: #4ec07f;
+        --warn: #e2a33a;
+        --err: #f0857a;
+        --shadow: 0 1px 3px rgba(0,0,0,.4);
+      }
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font: 16px/1.5 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--ink);
+      -webkit-font-smoothing: antialiased;
+    }
+    .wrap { max-width: 900px; margin: 0 auto; padding: 32px 20px 64px; }
+    header h1 { margin: 0 0 4px; font-size: 1.7rem; letter-spacing: -.01em; }
+    header p { margin: 0; color: var(--muted); }
+    .meta { margin-top: 14px; font-size: .85rem; color: var(--muted); }
+    .meta code { background: var(--card); padding: 2px 6px; border-radius: 6px; border: 1px solid var(--line); }
+    .grid { margin-top: 28px; display: grid; gap: 18px; }
+    .card {
+      background: var(--card);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 20px 22px;
+    }
+    .card h2 { margin: 0; font-size: 1.08rem; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+    .badge {
+      font-size: .72rem; font-weight: 600; padding: 3px 9px; border-radius: 999px;
+      text-transform: uppercase; letter-spacing: .04em; white-space: nowrap;
+    }
+    .badge.ok   { color: var(--ok);   background: color-mix(in srgb, var(--ok) 14%, transparent); }
+    .badge.warn { color: var(--warn); background: color-mix(in srgb, var(--warn) 16%, transparent); }
+    .badge.err  { color: var(--err);  background: color-mix(in srgb, var(--err) 14%, transparent); }
+    .src { margin: 8px 0 12px; font-size: .85rem; }
+    .src a { color: var(--accent); text-decoration: none; word-break: break-all; }
+    .src a:hover { text-decoration: underline; }
+    .fragment {
+      margin: 0; padding: 14px 16px; border-radius: 10px;
+      background: var(--bg); border: 1px solid var(--line);
+      font-size: .9rem; color: var(--ink);
+      white-space: pre-wrap; word-break: break-word;
+    }
+    .fragment.empty { color: var(--muted); font-style: italic; }
+    .hash { margin-top: 10px; font-size: .75rem; color: var(--muted); font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+    .note {
+      margin-top: 28px; padding: 16px 18px; border-radius: 10px;
+      background: color-mix(in srgb, var(--warn) 10%, var(--card));
+      border: 1px solid color-mix(in srgb, var(--warn) 30%, var(--line));
+      font-size: .88rem; color: var(--ink);
+    }
+    .note strong { color: var(--warn); }
+    footer { margin-top: 32px; font-size: .8rem; color: var(--muted); text-align: center; }
+    footer a { color: var(--accent); text-decoration: none; }
+    .status-loading { color: var(--muted); }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <h1>Lijst-monitor — risicolanden &amp; sancties</h1>
+      <p>Actuele stand van de vier gemonitorde bronnen (Wwft / sancties).</p>
+      <div class="meta" id="meta"><span class="status-loading">Gegevens laden…</span></div>
+    </header>
+
+    <div class="grid" id="grid"></div>
+
+    <div class="note">
+      <strong>Let op — beleidsmonitoring, geen sanctiescreening.</strong>
+      Deze pagina toont de laatst vastgelegde stand uit <code>state.json</code>.
+      Nieuwe EU-listings zijn bindend vanaf publicatie in het Publicatieblad;
+      cliëntscreening moet via een tool die de geconsolideerde lijst dagelijks inleest.
+    </div>
+
+    <footer>
+      Bron: <a href="https://github.com/Paulzkr/lijst-monitor" target="_blank" rel="noopener">Paulzkr/lijst-monitor</a>
+      · gegenereerd uit <code style="font-family:inherit">state.json</code>
+    </footer>
+  </div>
+
+  <script>
+    // De vier bronnen zoals gedefinieerd in monitor.py. state.json bevat de
+    // laatst vastgelegde stand per bron-id; een ontbrekende id betekent dat de
+    // bron bij de laatste run niet bereikbaar was (bijv. FATF-403).
+    const SOURCES = [
+      {
+        id: "eu_aml",
+        naam: "EU AML-hoogrisicolanden (DG FISMA)",
+        url: "https://finance.ec.europa.eu/financial-crime/anti-money-laundering-and-countering-financing-terrorism-international-level_en"
+      },
+      {
+        id: "eu_tax",
+        naam: "EU fiscale lijst niet-coöperatieve jurisdicties (DG TAXUD)",
+        url: "https://taxation-customs.ec.europa.eu/taxation/common-eu-list-third-country-jurisdictions-tax-purposes_en"
+      },
+      {
+        id: "fatf",
+        naam: "FATF zwarte/grijze lijst",
+        url: "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html"
+      },
+      {
+        id: "eu_sancties",
+        naam: "EU-sancties nieuwsoverzicht (DG FISMA)",
+        url: "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en"
+      }
+    ];
+
+    // Pages publiceert de docs/-map; state.json staat in de repo-root.
+    // Probeer eerst een lokale kopie (mocht die er ooit komen), val terug op raw GitHub.
+    const CANDIDATES = [
+      "./state.json",
+      "https://raw.githubusercontent.com/Paulzkr/lijst-monitor/main/state.json"
+    ];
+
+    function esc(s) {
+      return String(s).replace(/[&<>"']/g, c => (
+        {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[c]
+      ));
+    }
+
+    async function loadState() {
+      for (const url of CANDIDATES) {
+        try {
+          const r = await fetch(url, { cache: "no-store" });
+          if (r.ok) return await r.json();
+        } catch (_) { /* volgende kandidaat proberen */ }
+      }
+      throw new Error("state.json kon niet worden geladen");
+    }
+
+    function render(state) {
+      const grid = document.getElementById("grid");
+      grid.innerHTML = "";
+      for (const src of SOURCES) {
+        const entry = state[src.id];
+        const card = document.createElement("div");
+        card.className = "card";
+
+        let badge, fragmentHtml, hashHtml = "";
+        if (entry && entry.fragment) {
+          badge = '<span class="badge ok">vastgelegd</span>';
+          fragmentHtml = `<p class="fragment">${esc(entry.fragment)}</p>`;
+          if (entry.hash) {
+            hashHtml = `<div class="hash">sha256: ${esc(entry.hash.slice(0, 16))}…</div>`;
+          }
+        } else {
+          badge = '<span class="badge warn">niet bereikbaar bij laatste run</span>';
+          fragmentHtml = '<p class="fragment empty">Geen stand vastgelegd — bron handmatig controleren.</p>';
+        }
+
+        card.innerHTML =
+          `<h2>${esc(src.naam)} ${badge}</h2>` +
+          `<div class="src"><a href="${esc(src.url)}" target="_blank" rel="noopener">${esc(src.url)}</a></div>` +
+          fragmentHtml + hashHtml;
+        grid.appendChild(card);
+      }
+    }
+
+    (async () => {
+      const meta = document.getElementById("meta");
+      try {
+        const state = await loadState();
+        render(state);
+        const n = SOURCES.filter(s => state[s.id]).length;
+        meta.innerHTML = `${n} van ${SOURCES.length} bronnen met vastgelegde stand · fragmenten komen rechtstreeks uit <code>state.json</code>`;
+      } catch (err) {
+        meta.innerHTML = `<span style="color:var(--err)">Fout: ${esc(err.message)}</span>`;
+      }
+    })();
+  </script>
+</body>
+</html>
