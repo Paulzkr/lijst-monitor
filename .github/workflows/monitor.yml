@@ -1,0 +1,44 @@
+name: Monitor risicolanden-lijsten
+
+on:
+  schedule:
+    # Elke maandag 07:00 UTC (≈ 08:00/09:00 NL)
+    - cron: "0 7 * * 1"
+  workflow_dispatch: {}  # handmatig starten kan ook
+
+permissions:
+  contents: write
+  issues: write
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Dependencies installeren
+        run: pip install requests beautifulsoup4
+
+      - name: Lijsten controleren
+        run: python monitor.py
+
+      - name: Nieuwe stand vastleggen
+        run: |
+          git config user.name "lijst-monitor"
+          git config user.email "actions@github.com"
+          git add state.json
+          git diff --cached --quiet || git commit -m "state: $(date -I)"
+          git push
+
+      - name: Issue aanmaken bij wijzigingen
+        if: ${{ hashFiles('changes.md') != '' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh issue create \
+            --title "Wijziging risicolanden-lijsten ($(date -I))" \
+            --body-file changes.md
