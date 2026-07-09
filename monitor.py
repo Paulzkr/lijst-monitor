@@ -15,6 +15,9 @@ Bronnen:
     "Evolution of the EU List" (datum + PDF).
   - EU-sancties (DG FISMA): de "Latest update"-nieuwsregels uit de ticker.
   - FATF: geen automatische bron (bot-blokkade) — uit data/fatf.json.
+  - Transparency International CPI: volledige corruptie-index (0-100) per land,
+    semi-handmatig uit data/cpi.json (jaarlijkse editie; regenereren met
+    tools/cpi_from_xlsx.py uit het officiele Results-bestand).
 """
 
 import json
@@ -29,6 +32,7 @@ from bs4 import BeautifulSoup
 STATE_FILE = Path("state.json")
 CHANGES_FILE = Path("changes.md")
 FATF_FILE = Path("data/fatf.json")
+CPI_FILE = Path("data/cpi.json")
 HISTORIE_FILE = Path("data/historie.json")
 
 # Hoe lang NIEUW/VERWIJDERD-badges zichtbaar blijven na de mutatiedatum.
@@ -58,6 +62,7 @@ EU_SANCTIES_URL = (
     "overview-sanctions-and-related-resources_en"
 )
 FATF_URL = "https://www.fatf-gafi.org/en/countries/black-and-grey-lists.html"
+CPI_URL = "https://www.transparency.org/en/cpi/2025"
 FISMA_BASIS = "https://finance.ec.europa.eu"
 
 # Nette namen voor issue/historie.
@@ -66,6 +71,7 @@ BRON_NAAM = {
     "eu_tax": "EU fiscale lijst niet-coöperatieve jurisdicties (DG TAXUD)",
     "eu_sancties": "EU-sancties nieuwsoverzicht (DG FISMA)",
     "fatf": "FATF zwarte/grijze lijst",
+    "cpi": "Transparency International CPI (corruptie-index)",
 }
 
 
@@ -312,6 +318,13 @@ def lees_fatf() -> dict:
     }
 
 
+def lees_cpi() -> dict:
+    """Volledige CPI-index uit het semi-handmatige data/cpi.json."""
+    if not CPI_FILE.exists():
+        raise StructuurError("data/cpi.json ontbreekt")
+    return json.loads(CPI_FILE.read_text(encoding="utf-8"))
+
+
 # --------------------------------------------------------------------------- #
 #  Annotatielogica (NIEUW / VERWIJDERD, 90-dagen-venster)
 # --------------------------------------------------------------------------- #
@@ -556,6 +569,51 @@ def main() -> None:
     except StructuurError as exc:
         bewaar_oud("fatf")
         fouten.append(f"- **{BRON_NAAM['fatf']}**: {exc}. {FATF_URL}")
+
+    # ---- Transparency International CPI (semi-handmatig) ------------------ #
+    try:
+        cpi = lees_cpi()
+        oud = oude_state.get("cpi", {})
+        oude_scores = {l["iso3"]: l["score"] for l in oud.get("landen", [])}
+        nieuwe_scores = {l["iso3"]: l["score"] for l in cpi.get("landen", [])}
+        veranderd = [i for i, s in nieuwe_scores.items()
+                     if i in oude_scores and oude_scores[i] != s]
+        editie_nieuw = bool(oud) and oud.get("editie") != cpi.get("editie")
+        gewijzigd = bool(oud) and (editie_nieuw or bool(veranderd)
+                                   or set(oude_scores) != set(nieuwe_scores))
+        nieuwe_state["cpi"] = {
+            "status": "ok",
+            "editie": cpi.get("editie"),
+            "bijgewerkt_per": cpi.get("bijgewerkt_per"),
+            "wereldgemiddelde": cpi.get("wereldgemiddelde"),
+            "schaal": cpi.get("schaal"),
+            "bron_url": cpi.get("bron_url"),
+            "laatste_check": vandaag_iso,
+            "laatste_wijziging": vandaag_iso if gewijzigd
+            else oud.get("laatste_wijziging", cpi.get("bijgewerkt_per")),
+            "landen": cpi.get("landen", []),
+        }
+        if gewijzigd:
+            delen = []
+            if editie_nieuw:
+                delen.append(f"editie {oud.get('editie')} → {cpi.get('editie')}")
+            if veranderd:
+                delen.append(f"{len(veranderd)} land(en) met gewijzigde score")
+            toe = sorted(set(nieuwe_scores) - set(oude_scores))
+            weg = sorted(set(oude_scores) - set(nieuwe_scores))
+            if toe:
+                delen.append(f"{len(toe)} nieuw in index")
+            if weg:
+                delen.append(f"{len(weg)} uit index")
+            notitie = "; ".join(delen)
+            issue_secties.append(f"- **{BRON_NAAM['cpi']}**: {notitie}")
+            historie_toevoegingen.append({
+                "datum": vandaag_iso, "bron_id": "cpi", "bron": BRON_NAAM["cpi"],
+                "toegevoegd": [], "verwijderd": [], "notitie": notitie,
+            })
+    except StructuurError as exc:
+        bewaar_oud("cpi")
+        fouten.append(f"- **{BRON_NAAM['cpi']}**: {exc}. {CPI_URL}")
 
     # ---- Wegschrijven ----------------------------------------------------- #
     STATE_FILE.write_text(

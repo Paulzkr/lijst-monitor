@@ -101,6 +101,27 @@
     .landcel .datum { color: var(--muted); white-space: nowrap;
       font-variant-numeric: tabular-nums; font-size: .82rem; }
     .landcel.verwijderd .ln { text-decoration: line-through; color: var(--muted); }
+    .cpi-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 16px;
+      margin: 10px 0 14px; font-size: .8rem; color: var(--muted); }
+    .cpigrid { display: grid; gap: 0 24px;
+      grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); }
+    .cpicel { display: flex; align-items: baseline; gap: 9px; padding: 6px 0;
+      border-bottom: 1px solid var(--line); font-size: .88rem; }
+    .cpicel[hidden] { display: none; }
+    .cpicel .rk { min-width: 2.2em; text-align: right; color: var(--muted);
+      font-size: .8rem; font-variant-numeric: tabular-nums; }
+    .cpicel .ln { flex: 1; min-width: 0; }
+    .score { font-variant-numeric: tabular-nums; font-weight: 700; font-size: .78rem;
+      padding: 1px 8px; border-radius: 999px; white-space: nowrap; }
+    .score.s-hi { color: var(--ok); background: var(--ok-bg); }
+    .score.s-mid { color: var(--warn); background: var(--warn-bg); }
+    .score.s-lo { color: var(--err); background: var(--err-bg); }
+    .cpi-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 16px;
+      margin: 0 0 14px; padding: 12px 14px; background: var(--accent-soft);
+      border: 1px solid var(--line); border-radius: 10px; font-size: .86rem; }
+    .cpi-controls output { font-weight: 700; color: var(--accent);
+      font-variant-numeric: tabular-nums; }
+    .cpi-controls input[type="range"] { flex: 1 1 180px; max-width: 320px; accent-color: var(--accent); }
     .deltas { display: flex; flex-wrap: wrap; gap: 8px; }
     .delta { font-size: .86rem; font-weight: 600; padding: 3px 9px; border-radius: 7px; }
     .delta.plus { color: var(--ok); background: var(--ok-bg); }
@@ -137,7 +158,7 @@
     <header>
       <p class="kicker">ZKR · compliance-monitoring</p>
       <h1>Lijst-monitor — risicolanden &amp; sancties</h1>
-      <p class="lead">Actuele landenlijsten en wijzigingshistorie van de vier gemonitorde bronnen (Wwft / sancties).</p>
+      <p class="lead">Actuele landenlijsten en wijzigingshistorie van de gemonitorde bronnen (Wwft, sancties en corruptie-index).</p>
     </header>
 
     <main id="overview-view">
@@ -185,6 +206,8 @@
       { id: "eu_sancties", naam: "EU-sancties nieuwsoverzicht", instantie: "DG FISMA", type: "sancties",
         url: "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/overview-sanctions-and-related-resources_en" },
       { id: "fatf", naam: "FATF zwarte/grijze lijst", instantie: "handmatig bijgehouden", type: "fatf", url: FATF_URL },
+      { id: "cpi", naam: "Transparency International CPI", instantie: "Transparency International", type: "cpi",
+        url: "https://www.transparency.org/en/cpi/2025" },
     ];
 
     const MND = { january:1, february:2, march:3, april:4, may:5, june:6,
@@ -368,6 +391,56 @@
         ${officieleHistorieFatf(d)}`;
     }
 
+    const CPI_REGIO = { "WE/EU": "West-Europa & EU", "AME": "Amerika", "AP": "Azië-Pacific",
+      "ECA": "Oost-Europa & Centraal-Azië", "MENA": "Midden-Oosten & Noord-Afrika",
+      "SSA": "Sub-Sahara-Afrika" };
+    function cpiBand(score) { return score < 30 ? "lo" : (score < 50 ? "mid" : "hi"); }
+    function kaartCpi(bron, d) {
+      const landen = [...(d.landen || [])].sort((a, b) => a.rang - b.rang || a.naam.localeCompare(b.naam));
+      const cellen = landen.map(l => `<div class="cpicel" data-score="${esc(l.score)}">
+          <span class="rk">${esc(l.rang)}</span>
+          <span class="ln">${esc(l.naam)}</span>
+          <span class="score s-${cpiBand(l.score)}">${esc(l.score)}</span></div>`).join("");
+      return `<div class="sub"><h4>Volledige index (${landen.length} landen · editie ${esc(d.editie)})</h4>
+        <p class="muted small">Schaal ${esc(d.schaal)} · wereldgemiddelde <strong>${esc(d.wereldgemiddelde)}</strong> · bijgewerkt per <strong>${isoNaarNL(d.bijgewerkt_per)}</strong>.</p>
+        <div class="cpi-legend">
+          <span class="score s-hi">≥ 50</span> relatief schoon
+          <span class="score s-mid">30–49</span> verhoogd risico
+          <span class="score s-lo">&lt; 30</span> zeer hoog risico
+        </div>
+        <div class="cpi-controls">
+          <label for="cpi-th">Toon landen met CPI-score ≤ <output id="cpi-th-val">100</output></label>
+          <input type="range" id="cpi-th" min="0" max="100" step="1" value="100">
+          <span id="cpi-count" class="muted small"></span>
+        </div>
+        <div class="cpigrid">${cellen}</div></div>
+        <p class="muted small" style="margin-top:14px">CPI meet <em>waargenomen</em> corruptie in de publieke sector — een risico-indicatie, geen sanctie- of Wwft-listing. De drempel is een vrije selectiehulp, geen officiële TI-categorie.</p>`;
+    }
+
+    // Live selectie op de CPI-detailpagina: dim landen boven de drempel.
+    function pasCpiSelectieToe() {
+      const slider = document.getElementById("cpi-th");
+      if (!slider) return;
+      const drempel = +slider.value;
+      const val = document.getElementById("cpi-th-val");
+      if (val) val.textContent = drempel;
+      const cellen = document.querySelectorAll("#detail-body .cpicel");
+      let n = 0;
+      cellen.forEach(cel => {
+        const zichtbaar = (+cel.dataset.score) <= drempel;
+        cel.hidden = !zichtbaar;
+        if (zichtbaar) n++;
+      });
+      const c = document.getElementById("cpi-count");
+      if (c) c.textContent = `${n} van ${cellen.length} landen met score ≤ ${drempel}`;
+    }
+    function koppelCpiFilter() {
+      const s = document.getElementById("cpi-th");
+      if (!s) return;
+      s.addEventListener("input", pasCpiSelectieToe);
+      pasCpiSelectieToe();
+    }
+
     function bouwKaart(bron, state) {
       const d = state[bron.id];
       const card = document.createElement("div");
@@ -382,7 +455,8 @@
       if (bron.type === "aml") { body = kaartAml(bron, d); card.classList.add("card--wide"); }
       else if (bron.type === "tax") body = kaartTax(bron, d);
       else if (bron.type === "sancties") body = kaartSancties(bron, d);
-      else body = kaartFatf(bron, d);
+      else if (bron.type === "fatf") body = kaartFatf(bron, d);
+      else body = kaartCpi(bron, d);
       card.innerHTML = `<h2>${esc(bron.naam)} ${statusBadge(d)}</h2>
         <div class="src">${esc(bron.instantie)} · <a href="${esc(bron.url)}" target="_blank" rel="noopener">${esc(bron.url)}</a></div>
         ${metaRegel(d)}${structuurWaarschuwing(d, bron.url)}${body}`;
@@ -394,6 +468,7 @@
       if (bron.type === "aml") return d.landen || [];
       if (bron.type === "tax") return [...(d.bijlage_1 || []), ...(d.bijlage_2 || [])];
       if (bron.type === "fatf") return [...(d.zwarte_lijst || []), ...(d.grijze_lijst || [])];
+      if (bron.type === "cpi") return d.landen || [];
       return [];
     }
     function telActief(bron, d) {
@@ -444,7 +519,9 @@
         <div class="src">${esc(bron.instantie)}</div>
         <div class="metrics">
           <span class="metric">${tellingLabel(bron, d)}</span>
-          <span class="metric"><b>${recent.length}</b> recente mutatie(s)</span>
+          ${bron.type === "cpi"
+            ? `<span class="metric">wereldgem. <b>${esc(d.wereldgemiddelde)}</b></span><span class="metric">editie <b>${esc(d.editie)}</b></span>`
+            : `<span class="metric"><b>${recent.length}</b> recente mutatie(s)</span>`}
         </div>
         ${metaRegel(d)}
         ${wijzigingCompact(bron.id)}
@@ -464,6 +541,7 @@
         const body = document.getElementById("detail-body");
         body.innerHTML = "";
         body.appendChild(bouwKaart(bron, STATE));
+        if (bron.type === "cpi") koppelCpiFilter();
         document.title = `${bron.naam} — Lijst-monitor`;
       } else {
         dv.hidden = true;
