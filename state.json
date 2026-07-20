@@ -1,7 +1,7 @@
 {
   "eu_aml": {
     "status": "ok",
-    "laatste_check": "2026-07-13",
+    "laatste_check": "2026-07-20",
     "laatste_wijziging": "2026-01-29",
     "landen": [
       {
@@ -236,7 +236,7 @@
   },
   "eu_tax": {
     "status": "ok",
-    "laatste_check": "2026-07-13",
+    "laatste_check": "2026-07-20",
     "laatste_wijziging": "2026-02-17",
     "bijlage_1": [
       {
@@ -346,9 +346,14 @@
   },
   "eu_sancties": {
     "status": "ok",
-    "laatste_check": "2026-07-13",
-    "laatste_wijziging": "2026-04-23",
+    "laatste_check": "2026-07-20",
+    "laatste_wijziging": "2026-07-20",
     "updates": [
+      {
+        "datum": "2026-07-17",
+        "tekst": "Updated FAQ on media",
+        "link": "https://finance.ec.europa.eu/publications/media_en"
+      },
       {
         "datum": "2026-06-15",
         "tekst": "New FAQ on the import ban on refined products obtained from Russian crude oil",
@@ -358,18 +363,13 @@
         "datum": "2026-05-22",
         "tekst": "Updated FAQ on tanker sales and targeted vessels",
         "link": "https://finance.ec.europa.eu/eu-and-world/sanctions-restrictive-measures/sanctions-adopted-following-russias-military-aggression-against-ukraine/frequently-asked-questions-sanctions-against-russia_en"
-      },
-      {
-        "datum": "2026-04-23",
-        "tekst": "20th package of sanctions against Russia",
-        "link": "https://finance.ec.europa.eu/news/eu-adopts-20th-package-sanctions-against-russia-2026-04-23_en"
       }
     ]
   },
   "fatf": {
     "status": "ok",
     "bijgewerkt_per": "2026-06-19",
-    "laatste_check": "2026-07-13",
+    "laatste_check": "2026-07-20",
     "laatste_wijziging": "2026-06-19",
     "zwarte_lijst": [
       {
@@ -518,7 +518,7 @@
     "wereldgemiddelde": 42,
     "schaal": "0 (zeer corrupt) tot 100 (zeer schoon)",
     "bron_url": "https://www.transparency.org/en/cpi/2025",
-    "laatste_check": "2026-07-13",
+    "laatste_check": "2026-07-20",
     "laatste_wijziging": "2026-02-10",
     "landen": [
       {

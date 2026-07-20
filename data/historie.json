@@ -3,7 +3,11 @@
     "datum": "2026-01-29",
     "bron_id": "eu_aml",
     "bron": "EU AML-hoogrisicolanden",
-    "toegevoegd": ["Bolivia", "Britse Maagdeneilanden", "Rusland"],
+    "toegevoegd": [
+      "Bolivia",
+      "Britse Maagdeneilanden",
+      "Rusland"
+    ],
     "verwijderd": [],
     "notitie": "Gedelegeerde Verordeningen (EU) 2026/46 en (EU) 2026/83."
   },
@@ -27,8 +31,22 @@
     "datum": "2026-06-19",
     "bron_id": "fatf",
     "bron": "FATF grijze lijst",
-    "toegevoegd": ["Irak", "Bosnië-Herzegovina"],
-    "verwijderd": ["Algerije", "Namibië"],
+    "toegevoegd": [
+      "Irak",
+      "Bosnië-Herzegovina"
+    ],
+    "verwijderd": [
+      "Algerije",
+      "Namibië"
+    ],
     "notitie": "Grijze lijst; zwarte lijst ongewijzigd."
+  },
+  {
+    "datum": "2026-07-20",
+    "bron_id": "eu_sancties",
+    "bron": "EU-sancties nieuwsoverzicht (DG FISMA)",
+    "toegevoegd": [],
+    "verwijderd": [],
+    "notitie": "Updated FAQ on media"
   }
 ]
