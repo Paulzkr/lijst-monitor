@@ -1,7 +1,7 @@
 {
   "eu_aml": {
     "status": "ok",
-    "laatste_check": "2026-08-03",
+    "laatste_check": "2026-08-10",
     "laatste_wijziging": "2026-01-29",
     "landen": [
       {
@@ -236,7 +236,7 @@
   },
   "eu_tax": {
     "status": "ok",
-    "laatste_check": "2026-08-03",
+    "laatste_check": "2026-08-10",
     "laatste_wijziging": "2026-02-17",
     "bijlage_1": [
       {
@@ -346,7 +346,7 @@
   },
   "eu_sancties": {
     "status": "ok",
-    "laatste_check": "2026-08-03",
+    "laatste_check": "2026-08-10",
     "laatste_wijziging": "2026-07-27",
     "updates": [
       {
@@ -369,7 +369,7 @@
   "fatf": {
     "status": "ok",
     "bijgewerkt_per": "2026-06-19",
-    "laatste_check": "2026-08-03",
+    "laatste_check": "2026-08-10",
     "laatste_wijziging": "2026-06-19",
     "zwarte_lijst": [
       {
@@ -518,7 +518,7 @@
     "wereldgemiddelde": 42,
     "schaal": "0 (zeer corrupt) tot 100 (zeer schoon)",
     "bron_url": "https://www.transparency.org/en/cpi/2025",
-    "laatste_check": "2026-08-03",
+    "laatste_check": "2026-08-10",
     "laatste_wijziging": "2026-02-10",
     "landen": [
       {
