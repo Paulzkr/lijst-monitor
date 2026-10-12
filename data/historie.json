@@ -64,5 +64,37 @@
     "toegevoegd": [],
     "verwijderd": [],
     "notitie": "New FAQs have been published"
+  },
+  {
+    "datum": "2026-10-12",
+    "bron_id": "eu_tax",
+    "bron": "EU fiscale lijst niet-coöperatieve jurisdicties (DG TAXUD)",
+    "toegevoegd": [],
+    "verwijderd": [
+      "Panama",
+      "Viet Nam"
+    ],
+    "notitie": "Bijlage I"
+  },
+  {
+    "datum": "2026-10-12",
+    "bron_id": "eu_tax",
+    "bron": "EU fiscale lijst niet-coöperatieve jurisdicties (DG TAXUD)",
+    "toegevoegd": [
+      "Panama",
+      "Viet Nam. Text version 09 October 2026 Annex I: American Samoa",
+      "Anguilla",
+      "Guam",
+      "Palau",
+      "Russia",
+      "Turks And Caicos",
+      "Us Virgin Islands",
+      "Vanuatu Annex II: British Virgin Islands",
+      "Viet Nam"
+    ],
+    "verwijderd": [
+      "Belize"
+    ],
+    "notitie": "Bijlage II"
   }
 ]
