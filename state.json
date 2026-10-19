@@ -1,7 +1,7 @@
 {
   "eu_aml": {
     "status": "ok",
-    "laatste_check": "2026-10-12",
+    "laatste_check": "2026-10-19",
     "laatste_wijziging": "2026-01-29",
     "landen": [
       {
@@ -236,7 +236,7 @@
   },
   "eu_tax": {
     "status": "ok",
-    "laatste_check": "2026-10-12",
+    "laatste_check": "2026-10-19",
     "laatste_wijziging": "2026-10-12",
     "bijlage_1": [
       {
@@ -396,9 +396,14 @@
   },
   "eu_sancties": {
     "status": "ok",
-    "laatste_check": "2026-10-12",
-    "laatste_wijziging": "2026-09-28",
+    "laatste_check": "2026-10-19",
+    "laatste_wijziging": "2026-10-19",
     "updates": [
+      {
+        "datum": "2026-10-12",
+        "tekst": "Listing package against Russia",
+        "link": null
+      },
       {
         "datum": "2026-09-25",
         "tekst": "New FAQs have been published",
@@ -408,18 +413,13 @@
         "datum": "2026-07-23",
         "tekst": "21st package of sanctions against Russia",
         "link": null
-      },
-      {
-        "datum": "2026-07-17",
-        "tekst": "Updated FAQ on media",
-        "link": "https://finance.ec.europa.eu/publications/media_en"
       }
     ]
   },
   "fatf": {
     "status": "ok",
     "bijgewerkt_per": "2026-06-19",
-    "laatste_check": "2026-10-12",
+    "laatste_check": "2026-10-19",
     "laatste_wijziging": "2026-06-19",
     "zwarte_lijst": [
       {
@@ -558,7 +558,7 @@
     "wereldgemiddelde": 42,
     "schaal": "0 (zeer corrupt) tot 100 (zeer schoon)",
     "bron_url": "https://www.transparency.org/en/cpi/2025",
-    "laatste_check": "2026-10-12",
+    "laatste_check": "2026-10-19",
     "laatste_wijziging": "2026-02-10",
     "landen": [
       {
